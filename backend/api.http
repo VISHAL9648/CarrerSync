@@ -1,0 +1,62 @@
+
+POST http://localhost:8080/register HTTP/1.1
+content-Type: application/json
+
+{
+    "username": "Suhashini",
+    "password": "rahul",
+    "email": "dqr@gmail.com",
+    "name": "jhon",
+    "active": true
+}
+
+###
+
+POST http://localhost:8080/login HTTP/1.1
+content-Type: application/json
+
+{
+    "email":"qrw@gmail.com",
+
+    "password": "sharma"
+}
+
+###
+
+POST http://localhost:8080/get_user_and_profile HTTP/1.1
+content-Type: application/json
+
+{
+    "token": "955fd006f719efc89865bd5b13696fda45eaa320144c0643892987bfa79aed6d"
+}
+
+
+###
+POST http://localhost:8080/update_profile_data HTTP/1.1
+content-Type: application/json
+
+
+{
+    "token": "955fd006f719efc89865bd5b13696fda45eaa320144c0643892987bfa79aed6d",
+    "bio": "",
+        "currentPost": "CTO",
+        "pastWork": [
+            {
+                "company": "Microsoft",
+                "position": "CTO",
+                "years": "2+"
+            }
+        ],
+        "education": [
+            {
+                "school": "IIT",
+                "degree": "MCA(DS & AI)",
+                "fieldOfStudy": "2024-2026"
+            }
+        ]
+}
+
+###
+GET  http://localhost:8080/user/get_all_users
+
+
