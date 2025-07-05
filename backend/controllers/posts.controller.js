@@ -1,6 +1,7 @@
 import Post from "../models/posts.model.js";
 import Profile from "../models/profile.js";
 import User from "../models/user.model.js";
+import Comment from "../models/comments.model.js";
 import bcrypt from 'bcrypt';
 
 
@@ -26,7 +27,7 @@ export const createPost = async (req, res) =>{
       body: req.body.body,
       media: req.file !=undefined ? req.file.filename: "",
       fileType: req.file !=undefined ? req.file.mimetype.split("/")[1]: ""
-    })
+    });
 
     await post.save();
 
@@ -38,16 +39,20 @@ export const createPost = async (req, res) =>{
  
   }
 
-}
+};
 
 /// get all posts
-export const getAllPosts = async (req, res) =>{
+
+export const getAllPosts = async (req, res) => {
+  
   try{
       const posts = await Post.find().populate('userId','name username email profilePicture')
-      return res.json({posts})
+      return res.json({posts: posts || []})
+
   }catch (err){
       return res.status(500).json({message: err.message})
   }
+
 }
 
 
@@ -73,7 +78,7 @@ export const deletePost = async (req, res) =>{
         return res.status(404).json({message: "Unauthorized"})
       }
 
-      await Post.deletePost({_id: post_id});
+      await Post.deleteOne({_id: post_id});
 
     } catch(err){
       return res.status(500).json({message: err.message})

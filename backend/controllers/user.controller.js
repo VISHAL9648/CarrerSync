@@ -73,9 +73,13 @@ export const register = async (req, res) => {
     }
 };
 
+
+
+
 export const login = async (req, res) => {
 
 
+    
     try {
         const { email, password } = req.body;
         if (!email || !password)
@@ -88,8 +92,13 @@ export const login = async (req, res) => {
         if (!isMatch) return res.status(400).json({ message: "Invalid credentials" })
         const token = crypto.randomBytes(32).toString("hex");
         await User.updateOne({ _id: user._id }, { token });
-        return res.json({ token })
+        return res.json({ token, user });
+
+         
+
     } catch (error) {
+         console.error(error); 
+        res.status(500).json({ message: "Server Error" });
 
     }
 }
@@ -130,16 +139,17 @@ export const updateUserProfile = async (req, res) => {
         await user.save();
         return res.json({ message: "User Updated" })
     } catch (error) {
-        return res.status(500).josn({ message: error.message })
+        return res.status(500).json({ message: error.message })
     }
 }
 
 
 
 export const getUserAndProfile = async (req, res) => {
-    console.log(req.body);
     try {
-        const { token } = req.body;
+        const { token } = req.query;
+        
+        
         const user = await User.findOne({ token: token });
 
         if (!user) {
@@ -147,6 +157,8 @@ export const getUserAndProfile = async (req, res) => {
         }
         const userProfile = await Profile.findOne({ userId: user._id })
             .populate('userId', 'name email username profilePicture');
+
+            
 
         return res.json(userProfile)
 

@@ -47,7 +47,7 @@ const ProfileSchema = new mongoose.Schema({
         type:[workSchema],
         default:[],
     },
-    educaton:{
+    education:{
         type:[educationSchema],
         default:[],
     }
